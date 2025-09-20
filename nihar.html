@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nihar 11 medical store bill</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f7ff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background-color: #1a73e8;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .input-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-right: 1px solid #eee;
+        }
+        
+        .bill-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        button {
+            padding: 12px 20px;
+            background-color: #1a73e8;
+            color: red;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #0d62cb;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-secondary {
+            background-color: #5f6368;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #4a4d52;
+        }
+        
+        .btn-danger {
+            background-color: #ea4335;
+        }
+        
+        .btn-danger:hover {
+            background-color: #d33426;
+        }
+        
+        .bill-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1a73e8;
+        }
+        
+        .bill-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+        }
+        
+        .total-row {
+            font-weight: bold;
+            background-color: #e8f0fe;
+        }
+        
+        .bill-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-style: italic;
+            color: #666;
+        }
+        
+        .print-btn {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #34a853;
+        }
+        
+        .print-btn:hover {
+            background-color: #2c984a;
+        }
+        
+        @media print {
+            .input-section, .print-btn {
+                display: none;
+            }
+            
+            .container {
+                box-shadow: none;
+            }
+            
+            body {
+                background-color: white;
+                padding: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .input-section {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Medical Store Bill Generator</h1>
+            <p class="subtitle">Create professional bills for medical products</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <h2>Add Product</h2>
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" id="productName" placeholder="Enter product name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="productCategory">Category</label>
+                    <select id="productCategory">
+                        <option value="medicine">Medicine</option>
+                        <option value="equipment">Medical Equipment</option>
+                        <option value="supplement">Supplement</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productQuantity">Quantity</label>
+                    <input type="number" id="productQuantity" placeholder="Enter quantity" min="1" value="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="productPrice">Price per unit (₹)</label>
+                    <input type="number" id="productPrice" placeholder="Enter price" min="0" step="0.01">
+                </div>
+                
+                <div class="button-group">
+                    <button id="addProductBtn">Add Product</button>
+                    <button class="btn-secondary" id="resetFormBtn">Reset Form</button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerName">Customer Name</label>
+                    <input type="text" id="customerName" placeholder="Enter customer name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerPhone">Phone Number</label>
+                    <input type="tel" id="customerPhone" placeholder="Enter phone number">
+                </div>
+            </div>
+            
+            <div class="bill-section">
+                <div class="bill-header">
+                    <h2>MEDICAL STORE BILL</h2>
+                    <p>123 Health Street, Medical District</p>
+                    <p>Phone: (555) 123-4567</p>
+                </div>
+                
+                <div class="bill-details">
+                    <div>
+                        <p><strong>Bill No:</strong> <span id="billNumber">MS2023001</span></p>
+                        <p><strong>Date:</strong> <span id="billDate"></span></p>
+                    </div>
+                    <div>
+                        <p><strong>Customer:</strong> <span id="displayCustomerName">-</span></p>
+                        <p><strong>Phone:</strong> <span id="displayCustomerPhone">-</span></p>
+                    </div>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="billItems">
+                        <!-- Bill items will be added here -->
+                    </tbody>
+                    <tfoot>
+                        <tr class="total-row">
+                            <td colspan="4" style="text-align: right;">Grand Total:</td>
+                            <td id="grandTotal">₹0.00</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                
+                <div class="bill-footer">
+                    <p>Thank you for your purchase!</p>
+                    <p>Please keep this bill for warranty purposes</p>
+                </div>
+                
+                <button class="print-btn" id="printBillBtn">Print Bill</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date
+            const now = new Date();
+            document.getElementById('billDate').textContent = now.toLocaleDateString();
+            
+            // Initialize products array
+            let products = [];
+            
+            // Add product to bill
+            document.getElementById('addProductBtn').addEventListener('click', function() {
+                const name = document.getElementById('productName').value.trim();
+                const category = document.getElementById('productCategory').value;
+                const quantity = parseInt(document.getElementById('productQuantity').value);
+                const price = parseFloat(document.getElementById('productPrice').value);
+                
+                // Validate inputs
+                if (!name || isNaN(quantity) || quantity <= 0 || isNaN(price) || price < 0) {
+                    alert('Please enter valid product details');
+                    return;
+                }
+                
+                // Add to products array
+                products.push({
+                    name,
+                    category,
+                    quantity,
+                    price,
+                    total: quantity * price
+                });
+                
+                // Update customer details
+                updateCustomerDetails();
+                
+                // Refresh bill display
+                refreshBill();
+                
+                // Reset form
+                document.getElementById('productName').value = '';
+                document.getElementById('productQuantity').value = '1';
+                document.getElementById('productPrice').value = '';
+            });
+            
+            // Reset form
+            document.getElementById('resetFormBtn').addEventListener('click', function() {
+                document.getElementById('productName').value = '';
+                document.getElementById('productQuantity').value = '1';
+                document.getElementById('productPrice').value = '';
+            });
+            
+            // Update customer details
+            function updateCustomerDetails() {
+                const customerName = document.getElementById('customerName').value;
+                const customerPhone = document.getElementById('customerPhone').value;
+                
+                document.getElementById('displayCustomerName').textContent = customerName || '-';
+                document.getElementById('displayCustomerPhone').textContent = customerPhone || '-';
+            }
+            
+            document.getElementById('customerName').addEventListener('input', updateCustomerDetails);
+            document.getElementById('customerPhone').addEventListener('input', updateCustomerDetails);
+            
+            // Refresh bill display
+            function refreshBill() {
+                const billItems = document.getElementById('billItems');
+                billItems.innerHTML = '';
+                
+                let grandTotal = 0;
+                
+                products.forEach((product, index) => {
+                    grandTotal += product.total;
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${product.name}</td>
+                        <td>${product.category}</td>
+                        <td>${product.quantity}</td>
+                        <td>₹${product.price.toFixed(2)}</td>
+                        <td>₹${product.total.toFixed(2)}</td>
+                        <td>
+                            <button class="btn-danger" onclick="removeProduct(${index})">Remove</button>
+                        </td>
+                    `;
+                    
+                    billItems.appendChild(row);
+                });
+                
+                document.getElementById('grandTotal').textContent = ₹${grandTotal.toFixed(2)};
+            }
+            
+            // Remove product from bill
+            window.removeProduct = function(index) {
+                products.splice(index, 1);
+                refreshBill();
+            };
+            
+            // Print bill
+            document.getElementById('printBillBtn').addEventListener('click', function() {
+                window.print();
+            });
+        });
+    </script>
+</body>
+</html>
